@@ -16,7 +16,7 @@ pipeline {
                     sh '''
                         cat <<EOF > .npmrc
                         registry=https://artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/
-                        _auth=${NPM_TOKEN}
+                        _authToken=${NPM_TOKEN}
                         always-auth=true
                         strict-ssl=false
                         EOF
