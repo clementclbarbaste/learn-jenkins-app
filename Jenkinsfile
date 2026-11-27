@@ -9,6 +9,7 @@ pipeline {
                     registryUrl 'https://docker-airbus-virtual.artifactory.2b82.aws.cloud.airbus.corp'
                     registryCredentialsId 'ArtifactoryToken'
                     reuseNode true
+                    args '--network host'
                 }
             }
             steps {
