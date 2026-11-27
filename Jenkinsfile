@@ -1,18 +1,8 @@
 pipeline {
     agent any
 
-    stages {
-        stage('w/o docker') {
-            steps {
-                sh '''
-                    echo "test"
-                    ls -la
-                    touch container-no.txt
-                '''
-            }
-        }
-        
-        stage('with docker') {
+    stages {   
+        stage('Build') {
             agent{
                 docker {
                     image 'docker-airbus-virtual.artifactory.2b82.aws.cloud.airbus.corp/library/node:26-alpine'
@@ -23,9 +13,12 @@ pipeline {
             }
             steps {
                 sh '''
-                    echo "with docker"
+                    echo "Starting Build"
                     ls -la
-                    touch container-yes.txt
+                    node --version
+                    npm --version
+                    npm ci
+                    npm run build
                 '''
             }
         }
