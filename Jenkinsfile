@@ -12,17 +12,20 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                    echo "Starting Build"
-                    ls -la
-                    node --version
-                    npm --version
-                    npm config set registry https://artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/
-                    npm config set strict-ssl false
-                    export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
-                    npm ci --loglevel verbose
-                    npm run build
-                '''
+                withCredentials([string(credentialsId: 'artifactory-npm-token', variable: 'NPM_TOKEN')]) {
+                    sh '''
+                        cat <<EOF > .npmrc
+                        registry=https://artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/
+                        _auth=${NPM_TOKEN}
+                        always-auth=true
+                        strict-ssl=false
+                        EOF
+
+                        export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+                        npm ci --loglevel verbose
+                        rm -f .npmrc
+                    '''
+                }
             }
         }
     }
