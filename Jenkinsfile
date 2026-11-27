@@ -14,6 +14,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'artifactory-npm-token', variable: 'NPM_TOKEN')]) {
                     sh '''
+                        rm -f .npmrc
                         npm config set registry "https://artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/"
                         npm config set strict-ssl false
                         npm config set "//artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/:_authToken" "$NPM_TOKEN"
