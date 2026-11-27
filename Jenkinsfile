@@ -14,16 +14,13 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'artifactory-npm-token', variable: 'NPM_TOKEN')]) {
                     sh '''
-                        cat <<EOF > .npmrc
-                        registry=https://artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/
-                        _authToken=${NPM_TOKEN}
-                        always-auth=true
-                        strict-ssl=false
-                        EOF
+                        npm config set registry "https://artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/"
+                        npm config set strict-ssl false
+                        npm config set _authToken "$NPM_TOKEN"
+                        npm config set always-auth true
 
                         export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
                         npm ci --loglevel verbose
-                        rm -f .npmrc
                     '''
                 }
             }
