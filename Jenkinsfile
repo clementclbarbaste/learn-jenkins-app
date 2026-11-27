@@ -21,7 +21,8 @@ pipeline {
                         npm config set "//artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/:_authToken" "$NPM_TOKEN"
 
                         export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
-                        npm ci --loglevel verbose
+                        npm ci
+                        npm run build
                     '''
                 }
             }
