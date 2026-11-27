@@ -16,8 +16,7 @@ pipeline {
                     sh '''
                         npm config set registry "https://artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/"
                         npm config set strict-ssl false
-                        npm config set _authToken "$NPM_TOKEN"
-                        npm config set always-auth true
+                        npm config set "//artifactory.2b82.aws.cloud.airbus.corp/artifactory/api/npm/npm-airbus-virtual/:_authToken" "$NPM_TOKEN"
 
                         export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
                         npm ci --loglevel verbose
